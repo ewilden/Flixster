@@ -28,7 +28,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // Get the data item for this position
+        // Get the data item for position
         Movie movie = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -40,9 +40,16 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         // Lookup view for data population
         TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
         ImageView ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+
+        // clear out image from convertView
+        ivPoster.setImageResource(0);
+
+
 
         // Populate the data into the template view using the data object
-        tvTitle.setText(movie.title);
+        tvTitle.setText(movie.getTitle());
+        tvOverview.setText(movie.getOverview());
         //String imageURI = "https://i.imgur.com/tGbaZCY.jpg";
         String imageURI = movie.getPosterUrl();
         Picasso.with(getContext()).load(imageURI).into(ivPoster);
