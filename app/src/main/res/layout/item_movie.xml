@@ -30,6 +30,7 @@
         android:layout_below="@+id/tvTitle"
         android:layout_toRightOf="@+id/ivPoster"
         android:layout_toEndOf="@+id/ivPoster"
+        android:textSize="16sp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
