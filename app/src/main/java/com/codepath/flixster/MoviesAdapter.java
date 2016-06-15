@@ -21,6 +21,14 @@ import java.util.ArrayList;
  */
 public class MoviesAdapter extends ArrayAdapter<Movie> {
 
+    // View lookup cache
+    private static class ViewHolder {
+        TextView  tvTitle;
+        TextView  tvOverview;
+        ImageView ivPoster;
+        ImageView ivBackdrop;
+    }
+
     public MoviesAdapter(Context context, ArrayList<Movie> movies) {
         super(context, R.layout.item_movie, movies);
     }
@@ -31,21 +39,33 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         // Get the data item for position
         Movie movie = getItem(position);
 
+        ViewHolder viewHolder; // view lookup cache stored in tag
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
+            viewHolder = new ViewHolder();
             convertView =
                     LayoutInflater.from(getContext()).inflate(R.layout.item_movie, parent, false);
+            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+            viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+            viewHolder.ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
+            viewHolder.ivBackdrop = (ImageView) convertView.findViewById(R.id.ivBackdrop);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
         // Lookup view for data population
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        ImageView ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
-        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-        ImageView ivBackdrop = (ImageView) convertView.findViewById(R.id.ivBackdrop);
+
+        TextView tvTitle = viewHolder.tvTitle;
+        ImageView ivPoster = viewHolder.ivPoster;
+        TextView tvOverview = viewHolder.tvOverview;
+        ImageView ivBackdrop = viewHolder.ivBackdrop;
 
         // clear out image from convertView
-        if (ivPoster != null)
+        if (ivPoster != null) {
             ivPoster.setImageResource(0);
+        }
         if (ivBackdrop != null)
             ivBackdrop.setImageResource(0);
 
