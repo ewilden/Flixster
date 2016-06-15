@@ -34,7 +34,7 @@ import-summary.txt
 
 *.pydevproject
 .project
-.metadata
+q.metadata
 .gradle
 build/**
 bin/**
@@ -63,6 +63,3 @@ local.properties
 
 # emacs backup files
 *~
-
-# Mac specific
-.DS_Store
