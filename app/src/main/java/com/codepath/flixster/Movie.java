@@ -13,6 +13,7 @@ public class Movie {
     public String title;
     public String posterUrl;
     public String overview;
+    public String backdropUrl;
 
     public String getTitle() {
         return title;
@@ -20,6 +21,10 @@ public class Movie {
 
     public String getPosterUrl() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterUrl);
+    }
+
+    public String getBackdropUrl() {
+        return String.format("https://image.tmdb.org/t/p/w342/%s", backdropUrl);
     }
 
     public String getOverview() {
@@ -38,6 +43,7 @@ public class Movie {
         this.posterUrl = jsonObject.getString("poster_path");
         this.title = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
+        this.backdropUrl = jsonObject.getString("backdrop_path");
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray jsonArray) {

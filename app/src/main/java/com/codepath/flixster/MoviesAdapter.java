@@ -41,21 +41,29 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
         ImageView ivPoster = (ImageView) convertView.findViewById(R.id.ivPoster);
         TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+        ImageView ivBackdrop = (ImageView) convertView.findViewById(R.id.ivBackdrop);
 
         // clear out image from convertView
-        ivPoster.setImageResource(0);
-
-
+        if (ivPoster != null)
+            ivPoster.setImageResource(0);
+        if (ivBackdrop != null)
+            ivBackdrop.setImageResource(0);
 
         // Populate the data into the template view using the data object
         tvTitle.setText(movie.getTitle());
         tvOverview.setText(movie.getOverview());
         //String imageURI = "https://i.imgur.com/tGbaZCY.jpg";
-        String imageURI = movie.getPosterUrl();
-        Picasso.with(getContext()).load(imageURI).into(ivPoster);
 
+        if (ivPoster != null) {
+            String imageURI = movie.getPosterUrl();
+            Picasso.with(getContext()).load(imageURI).into(ivPoster);
+        }
+        if (ivBackdrop != null) {
+            String imageURI = movie.getBackdropUrl();
+            Picasso.with(getContext()).load(imageURI).into(ivBackdrop);
+        }
 
-        Log.d("MoviesAdapter", "Position: "+ position);
+        // Log.d("MoviesAdapter", "Position: "+ position);
 
         //ivPoster.set... TODO
 
