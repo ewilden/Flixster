@@ -43,8 +43,8 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
         // Populate the data into the template view using the data object
         tvTitle.setText(movie.title);
-        String imageURI = "https://i.imgur.com/tGbaZCY.jpg";
-        //String imageURI = movie.posterUrl;
+        //String imageURI = "https://i.imgur.com/tGbaZCY.jpg";
+        String imageURI = movie.getPosterUrl();
         Picasso.with(getContext()).load(imageURI).into(ivPoster);
 
 

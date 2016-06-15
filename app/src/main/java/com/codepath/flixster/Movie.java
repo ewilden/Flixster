@@ -1,5 +1,9 @@
 package com.codepath.flixster;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -8,12 +12,44 @@ import java.util.ArrayList;
 public class Movie {
     public String title;
     public String posterUrl;
+    public String overview;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getPosterUrl() {
+        return String.format("https://image.tmdb.org/t/p/w342/%s", posterUrl);
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
     public int rating;
 
     public Movie(String title, String posterUrl, int rating) {
         this.title = title;
         this.posterUrl = posterUrl;
         this.rating = rating;
+    }
+
+    public Movie(JSONObject jsonObject) throws JSONException {
+        this.posterUrl = jsonObject.getString("poster_path");
+        this.title = jsonObject.getString("original_title");
+        this.overview = jsonObject.getString("overview");
+    }
+
+    public static ArrayList<Movie> fromJSONArray(JSONArray jsonArray) {
+        ArrayList<Movie> results = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                results.add(new Movie(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return results;
     }
 
     public static ArrayList<Movie> getFakeMovies() {
