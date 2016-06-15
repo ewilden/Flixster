@@ -1,5 +1,6 @@
 package com.codepath.flixster;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,12 +19,47 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class MoviesActivity extends AppCompatActivity {
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
+        // lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+
+        // setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                refreshMovies();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        refreshMovies();
+    }
+    private void displayMovies(ArrayList<Movie> movies) {
+        // 1. Get the ListView that we want to populate
+        ListView lvMovies = (ListView) findViewById(R.id.lvMovies);
+
+        // 2. Use our fancy new MoviesAdapter.
+        MoviesAdapter adapter = new MoviesAdapter(this, movies);
+
+        // 3. Associate the adapter with the ListView
+        lvMovies.setAdapter(adapter);
+    }
+
+    // NB: Currently simply fetches a whole new movie list and ends up creating a whole new
+    // adapter rather than clearing the adapter's items and adding new ones. Is this a problem?
+    private void refreshMovies() {
         // Trying out a sample "Now Playing" API call
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
@@ -42,6 +78,7 @@ public class MoviesActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
@@ -49,34 +86,5 @@ public class MoviesActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
-
-        /*
-        // 1. Get the actual movies
-        ArrayList<Movie> movies = Movie.getFakeMovies();
-
-
-        // 2. Get the ListView that we want to populate
-        ListView lvMovies = (ListView) findViewById(R.id.lvMovies);
-
-        // 3. Create an ArrayAdapter
-        ArrayAdapter<Movie> adapterOld = new ArrayAdapter<Movie>(
-                                            this, android.R.layout.simple_list_item_1, movies);
-
-        // 3.2 Use our fancy new MoviesAdapter.
-        MoviesAdapter adapter = new MoviesAdapter(this, movies);
-
-        // 4. Associate the adapter with the ListView
-        lvMovies.setAdapter(adapter);
-        */
-    }
-    private void displayMovies(ArrayList<Movie> movies) {
-        // 1. Get the ListView that we want to populate
-        ListView lvMovies = (ListView) findViewById(R.id.lvMovies);
-
-        // 2. Use our fancy new MoviesAdapter.
-        MoviesAdapter adapter = new MoviesAdapter(this, movies);
-
-        // 3. Associate the adapter with the ListView
-        lvMovies.setAdapter(adapter);
     }
 }
