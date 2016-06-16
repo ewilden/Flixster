@@ -1,9 +1,13 @@
 package com.codepath.flixster;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,6 +24,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class MoviesActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
+    ListView lvMovies;
+    ArrayList<Movie> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +54,16 @@ public class MoviesActivity extends AppCompatActivity {
     }
     private void displayMovies(ArrayList<Movie> movies) {
         // 1. Get the ListView that we want to populate
-        ListView lvMovies = (ListView) findViewById(R.id.lvMovies);
+        lvMovies = (ListView) findViewById(R.id.lvMovies);
 
         // 2. Use our fancy new MoviesAdapter.
         MoviesAdapter adapter = new MoviesAdapter(this, movies);
 
         // 3. Associate the adapter with the ListView
         lvMovies.setAdapter(adapter);
+
+        // 4. Listen for clicks on the ListView.
+        setupListViewListener();
     }
 
     // NB: Currently simply fetches a whole new movie list and ends up creating a whole new
@@ -71,7 +80,7 @@ public class MoviesActivity extends AppCompatActivity {
                 JSONArray movieJSONResults = null;
                 try {
                     movieJSONResults = response.getJSONArray("results");
-                    ArrayList<Movie> movies = Movie.fromJSONArray(movieJSONResults);
+                    movies = Movie.fromJSONArray(movieJSONResults);
                     // Call the method to display these movies.
                     displayMovies(movies);
 
@@ -86,5 +95,25 @@ public class MoviesActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+    }
+
+    private final int REQUEST_CODE = 23;
+
+    private void setupListViewListener() {
+        ListView lvItems = lvMovies;
+        lvItems.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter,
+                                            View item, int pos, long id) {
+                        Log.d("MoviesActivity", "clicked!");
+                        Intent i = new Intent(MoviesActivity.this, DetailActivity.class);
+                        Movie movie = movies.get(pos);
+                        i.putExtra("movie", movie);
+
+                        startActivity(i);
+                    }
+                }
+        );
     }
 }

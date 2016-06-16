@@ -76,12 +76,12 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
         if (ivPoster != null) {
             String imageURI = movie.getPosterUrl();
-            Picasso.with(getContext()).load(imageURI).fit().
+            Picasso.with(getContext()).load(imageURI).fit().centerCrop().
                     placeholder(R.drawable.placeholder_thumbnail).into(ivPoster);
         }
         if (ivBackdrop != null) {
             String imageURI = movie.getBackdropUrl();
-            Picasso.with(getContext()).load(imageURI).fit().
+            Picasso.with(getContext()).load(imageURI).fit().centerCrop().
                     placeholder(R.drawable.placeholder_thumbnail).into(ivBackdrop);
         }
 

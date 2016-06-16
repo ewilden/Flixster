@@ -4,16 +4,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by evanwild on 6/15/16.
  */
-public class Movie {
+public class Movie implements Serializable {
     public String title;
     public String posterUrl;
     public String overview;
     public String backdropUrl;
+    public double rating;
 
     public String getTitle() {
         return title;
@@ -31,9 +33,13 @@ public class Movie {
         return overview;
     }
 
-    public int rating;
 
-    public Movie(String title, String posterUrl, int rating) {
+
+    public double getRating() {
+        return rating;
+    }
+
+    public Movie(String title, String posterUrl, float rating) {
         this.title = title;
         this.posterUrl = posterUrl;
         this.rating = rating;
@@ -44,6 +50,7 @@ public class Movie {
         this.title = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
         this.backdropUrl = jsonObject.getString("backdrop_path");
+        this.rating = jsonObject.getDouble("vote_average");
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray jsonArray) {
@@ -72,6 +79,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return title + " - " + rating;
+        return "Movie [title=" + title + ", posterUrl="+ posterUrl+ ", overview="+ overview+
+                ", backdropUrl="+backdropUrl+", rating="+rating+"]";
     }
 }
