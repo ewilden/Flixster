@@ -13,8 +13,9 @@
     android:orientation="horizontal">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_widthPercent="50%"
         android:textAppearance="?android:attr/textAppearanceLarge"
         tools:text="X-Men: Apocalypse"
         android:id="@+id/tvTitleDetail"
