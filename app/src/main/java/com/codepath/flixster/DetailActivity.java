@@ -5,6 +5,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.content.Context;
 
@@ -32,14 +33,17 @@ public class DetailActivity extends Activity {
         String overview = movie.getOverview();
         String posterUrl = movie.getPosterUrl();
         String backdropUrl = movie.getBackdropUrl();
+        double rating = movie.getRating() / 2.0;
 
         TextView tvTitle = (TextView) findViewById(R.id.tvTitleDetail);
         TextView tvOverview = (TextView) findViewById(R.id.tvOverviewDetail);
         ImageView ivBackdrop = (ImageView) findViewById(R.id.ivBackdropDetail);
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         tvTitle.setText(title);
         tvOverview.setText(overview);
         String imageURI = backdropUrl;
+        ratingBar.setRating((float) rating);
         Picasso.with(this).load(imageURI).fit().centerCrop().
                 placeholder(R.drawable.placeholder_thumbnail).into(ivBackdrop);
     }
