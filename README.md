@@ -41,8 +41,7 @@ Here's a walkthrough of implemented user stories:
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
-
-Describe any challenges encountered while building the app.
+Note for future self: if layouts appear inexplicably reversed left-to-right, double-check the "Force RTL" developer option on the device!
 
 ## Open-source libraries used
 
