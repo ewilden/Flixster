@@ -34,6 +34,7 @@
         android:id="@+id/ivBackdropDetail"
         tools:src="@mipmap/ic_launcher"
         android:layout_gravity="center"
+        android:onClick="onVideoClick"
         />
 
     <RatingBar

@@ -16,6 +16,7 @@ public class Movie implements Serializable {
     public String overview;
     public String backdropUrl;
     public double rating;
+    public int id;
 
     public String getTitle() {
         return title;
@@ -45,12 +46,18 @@ public class Movie implements Serializable {
         this.rating = rating;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Movie(JSONObject jsonObject) throws JSONException {
         this.posterUrl = jsonObject.getString("poster_path");
         this.title = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
         this.backdropUrl = jsonObject.getString("backdrop_path");
         this.rating = jsonObject.getDouble("vote_average");
+        this.id = jsonObject.getInt("id");
+
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray jsonArray) {

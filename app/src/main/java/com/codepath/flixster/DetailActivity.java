@@ -14,7 +14,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.content.Context;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DetailActivity extends Activity {
     private Movie movie;
@@ -56,8 +64,36 @@ public class DetailActivity extends Activity {
 
     private final int REQUEST_CODE = 23;
 
-    public void onVideoClick() {
+    public void onVideoClick(View view) {
         // TODO get movie ID, use to make API call and launch WatchYtActivity.
+        int id = movie.getId();
+        String url = "https://api.themoviedb.org/3/movie/"+id+"/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray movieJSONResults = null;
+                try {
+                    movieJSONResults = response.getJSONArray("results");
+                    JSONObject res = movieJSONResults.getJSONObject(0);
+                    String key = res.getString("key");
+
+                    Intent i = new Intent(DetailActivity.this, WatchYtActivity.class);
+
+                    i.putExtra("key", key);
+                    startActivity(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
 
     }
 }
