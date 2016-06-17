@@ -1,10 +1,15 @@
 package com.codepath.flixster;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.content.Context;
@@ -12,15 +17,16 @@ import android.content.Context;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends Activity {
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         int pos = getIntent().getIntExtra("pos", -1);
-        assert(pos >= 0);
+
         Bundle b = getIntent().getExtras();
-        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+        movie = (Movie) getIntent().getSerializableExtra("movie");
         /*
         String title = b.getString("title");
         String overview = b.getString("overview");
@@ -46,5 +52,12 @@ public class DetailActivity extends Activity {
         ratingBar.setRating((float) rating);
         Picasso.with(this).load(imageURI).fit().centerCrop().
                 placeholder(R.drawable.placeholder_thumbnail).into(ivBackdrop);
+    }
+
+    private final int REQUEST_CODE = 23;
+
+    public void onVideoClick() {
+        // TODO get movie ID, use to make API call and launch WatchYtActivity.
+
     }
 }

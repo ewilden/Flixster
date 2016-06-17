@@ -4,9 +4,11 @@
     <!-- <color name="colorPrimaryDark">#303F9F</color> -->
     <color name="colorPrimaryDark">#000000</color>
     <!--<color name="colorAccent">#FF4081</color> -->
-    <color name="colorAccent">#80cbc4</color>
-    <color name="colorPrimary">#000000</color>
+    <color name="colorAccent">@color/wuv</color>
+    <color name="colorPrimary">@color/dino_blood</color>
     <color name="primary_material_dark">#000000</color>
     <color name="primary_dark_material_dark">#000000</color>
     <color name="accent_material_dark">#80cbc4</color>
+    <color name="dino_blood">#710600</color>
+    <color name="wuv">#FE061E</color>
 </resources>
